@@ -1,0 +1,46 @@
+name: push-docker08
+
+on:
+  push:
+    paths:
+      - 'Dockerfile'
+      - 'package.json'
+      - 'index.html'
+      - 'embed.html'
+      - 'xqvwmk521g.html'
+      - 'vis-character.html'
+      - 'server.js'
+      - '.github/workflows/push.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Log in to ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build & push docker08:v9
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ghcr.io/${{ github.repository }}/docker08:v9
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Print digest
+        run: |
+          echo "DIGEST=${{ steps.build.outputs.digest }}"

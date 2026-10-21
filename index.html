@@ -1,0 +1,475 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1115">
+  <title>VISTAMATIONS · Perchance Portfolio</title>
+  <style>
+    :root { color-scheme: dark; font: 14px/1.5 "Segoe UI", Arial, sans-serif; background: #0b1115; color: #edf2ec; --panel: #151f25; --line: #34464b; --lime: #c9ff63; --gold: #f4b84a; --muted: #a5b4b0; }
+    * { box-sizing: border-box; }
+    html, body { min-height: 100%; margin: 0; }
+    body { min-height: 100vh; display: flex; flex-direction: column; background: radial-gradient(ellipse at 88% 0%, #28351f55, transparent 35%), #0b1115; }
+    button, input { font: inherit; }
+    .brand { min-height: 72px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .7rem clamp(.8rem, 2vw, 1.6rem); background: linear-gradient(110deg, #162127, #11191e 68%, #1e2820); border-bottom: 1px solid #40504b; box-shadow: 0 8px 28px #0005; }
+    .brand-lockup { display: flex; align-items: center; gap: .8rem; min-width: 0; }
+    .brand-glyph { width: 44px; height: 44px; display: grid; place-items: center; flex: 0 0 auto; border: 1px solid #c9ff6388; border-radius: 14px 5px; background: linear-gradient(145deg, #c9ff6326, #f4b84a17); color: var(--lime); font-size: 1.45rem; font-weight: 900; box-shadow: inset 0 0 18px #c9ff6310, 0 0 22px #c9ff6312; }
+    .brand-kicker, .section-label { color: var(--gold); font-size: .64rem; font-weight: 800; letter-spacing: .19em; }
+    h1 { margin: 0; color: #f4f6eb; font-size: 1.12rem; line-height: 1.2; letter-spacing: .04em; }
+    h1 span { color: var(--lime); font-size: .72em; }
+    .brand-motto { margin: .15rem 0 0; color: #91a09b; font-size: .68rem; letter-spacing: .07em; }
+    .brand-note { color: #93a29d; font-size: .75rem; text-align: right; }
+    .page { width: min(76rem, calc(100% - 2rem)); margin: 0 auto; padding: clamp(1.4rem, 4vw, 3rem) 0 3rem; }
+    .hero { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+    .hero h2 { margin: .25rem 0 0; color: #f0f4ed; font-size: clamp(1.7rem, 4vw, 2.7rem); line-height: 1.05; letter-spacing: -.04em; }
+    .hero h2 em { color: var(--lime); font-style: normal; }
+    .hero p { max-width: 42rem; margin: .55rem 0 0; color: var(--muted); }
+    .count { flex: 0 0 auto; padding: .45rem .75rem; border: 1px solid #52613e; border-radius: 999px; background: #c9ff630d; color: var(--lime); font-size: .7rem; font-weight: 800; letter-spacing: .1em; }
+    .add-box { margin: 0 0 1rem; border: 1px solid var(--line); border-radius: 12px; background: linear-gradient(120deg, #182329, #141d22); box-shadow: 0 8px 28px #0002; }
+    .add-box summary { display: flex; align-items: center; gap: .55rem; padding: .9rem 1rem; color: var(--lime); cursor: pointer; font-weight: 700; list-style: none; }
+    .add-box summary::-webkit-details-marker { display: none; }
+    .add-box summary::before { content: "+"; width: 1.3rem; height: 1.3rem; display: grid; place-items: center; border: 1px solid #c9ff6366; border-radius: 50%; }
+    .add-box[open] summary { border-bottom: 1px solid var(--line); }
+    .add-fields { display: grid; grid-template-columns: minmax(10rem, .8fr) minmax(14rem, 1.4fr) auto; align-items: end; gap: .8rem; padding: 1rem; }
+    label { display: grid; gap: .35rem; color: #afbfba; font-size: .78rem; font-weight: 650; }
+    input { width: 100%; min-width: 0; padding: .68rem .75rem; border: 1px solid #40534e; border-radius: 8px; outline: none; background: #0e1519; color: #f0f4ed; }
+    input::placeholder { color: #687772; }
+    input:focus { border-color: var(--lime); box-shadow: 0 0 0 3px #c9ff6322; }
+    .action { padding: .68rem .95rem; border: 1px solid #b6e75b; border-radius: 8px; background: linear-gradient(135deg, #c9ff63, #a8df4a); color: #162017; font-weight: 800; cursor: pointer; box-shadow: 0 4px 14px #c9ff6318; transition: transform .15s, filter .15s; }
+    .action:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .action.remove { padding: .43rem .65rem; border-color: #71464b; background: #321f24; color: #ffb7ae; font-size: .78rem; box-shadow: none; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 19rem), 1fr)); gap: .8rem; }
+    .card { position: relative; min-width: 0; display: grid; gap: .65rem; overflow: hidden; padding: 1rem; border: 1px solid var(--line); border-radius: 11px; background: linear-gradient(145deg, #1a272c, #131c21 78%); box-shadow: 0 8px 18px #0002; transition: transform .16s, border-color .16s, box-shadow .16s; }
+    .card::after { content: ""; position: absolute; top: 0; right: 0; width: 4rem; height: 4rem; background: radial-gradient(circle at top right, #c9ff6314, transparent 72%); pointer-events: none; }
+    .card:hover { transform: translateY(-2px); border-color: #8ba652; box-shadow: 0 12px 28px #0005, 0 0 0 1px #c9ff6310; }
+    .card-top { display: flex; align-items: start; justify-content: space-between; gap: .7rem; }
+    .card h3 { margin: 0; color: #f0f4ed; font-size: 1rem; font-weight: 700; overflow-wrap: anywhere; }
+    .filename { display: block; margin-top: .18rem; color: #91a19a; font: .72rem/1.4 Consolas, monospace; overflow-wrap: anywhere; }
+    .slug-input { padding: .57rem .65rem; font: .78rem/1.4 Consolas, monospace; }
+    .card-actions { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding-top: .12rem; }
+    .page-link { color: var(--lime); font-size: .82rem; font-weight: 750; text-decoration: none; }
+    .page-link:hover { text-decoration: underline; }
+    .page-link::after { content: ""; display: inline-block; width: .35rem; height: .35rem; margin: 0 0 .12rem .4rem; border-top: 1.5px solid currentColor; border-right: 1.5px solid currentColor; transform: rotate(45deg); }
+    .issue { margin: 0; padding: .65rem .7rem; border: 1px solid #9e6b35; border-radius: 8px; background: #38291d; color: #ffd49b; font-size: .8rem; }
+    .issue[hidden] { display: none; }
+    .badge { display: inline-flex; margin-left: .45rem; padding: .12rem .4rem; border: 1px solid #f4b84a77; border-radius: 999px; color: #f4c875; font-size: .62rem; font-weight: 800; letter-spacing: .08em; vertical-align: middle; }
+    .status { min-height: 1.2em; margin: .8rem 0 0; color: #9eada6; font-size: .78rem; }
+    .status.error { color: #ffb0ad; }
+    .embed-page { min-height: 100vh; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+    .embed-toolbar { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .55rem 1rem; background: linear-gradient(110deg, #162127, #11191e 68%, #1e2820); border-bottom: 1px solid #40504b; }
+    .embed-toolbar strong { color: var(--lime); overflow-wrap: anywhere; }
+    .embed-toolbar a { color: var(--gold); text-decoration: none; white-space: nowrap; }
+    .embed-frame { display: block; flex: 1; width: 100%; min-height: 0; border: 0; background: #10171b; }
+    @media (max-width: 680px) { .brand { min-height: 62px; } .brand-glyph { width: 38px; height: 38px; } .hero { align-items: start; flex-direction: column; } .add-fields { grid-template-columns: 1fr; } .add-fields .action { justify-self: start; } }
+    @media (max-width: 420px) { .brand-note { display: none; } .brand-lockup { gap: .5rem; } .brand-glyph { width: 33px; height: 33px; font-size: 1.1rem; } .brand-kicker { letter-spacing: .12em; } .brand-motto { display: none; } .page { width: min(100% - 1rem, 76rem); } }
+    .editor-link { display: inline-flex; align-items: center; gap: .45rem; padding: .55rem .8rem; border: 1px solid #829d4b88; border-radius: 8px; background: #c9ff6310; color: var(--lime); font-size: .78rem; font-weight: 700; text-decoration: none; white-space: nowrap; }
+  .editor-link:hover { background: #c9ff6320; }
+  .tabs { display: flex; flex-wrap: wrap; gap: .45rem; padding: .5rem clamp(.6rem, 2vw, 1.4rem); background: #10171b; border-bottom: 1px solid #34464b; }
+  .tab { flex: 0 0 auto; white-space: nowrap; padding: .68rem 1rem; border: 1px solid transparent; border-bottom: 0; border-radius: 9px 9px 0 0; color: #a8b6b2; background: transparent; font: inherit; font-size: .84rem; cursor: pointer; text-decoration: none; }
+  .tab::before { content: ""; display: inline-block; width: 7px; height: 7px; margin: 0 .5rem .05rem 0; border-radius: 50%; background: #64736f; }
+  .tab[aria-selected="true"] { color: var(--lime); background: linear-gradient(180deg, #202c2c, #172126); border-color: #3b5145; box-shadow: inset 0 2px 0 var(--lime); }
+  .tab[aria-selected="true"]::before { background: var(--lime); box-shadow: 0 0 9px #c9ff63aa; }
+  .tool-panel { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+  .tool-panel[hidden], .portfolio-panel[hidden] { display: none; }
+  .embed-toolbar { min-height: 48px; display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .55rem 1rem; background: linear-gradient(110deg, #162127, #11191e 68%, #1e2820); border-bottom: 1px solid #40504b; }
+  .embed-toolbar strong { color: var(--lime); overflow-wrap: anywhere; }
+  .embed-link { color: var(--gold); text-decoration: none; white-space: nowrap; font-weight: 700; }
+  .embed-link:hover { text-decoration: underline; }
+  .tool-frame { display: block; flex: 1; width: 100%; min-height: 0; border: 0; background: #10171b; }
+  .portfolio-panel { flex: 1 1 auto; min-height: 0; overflow: auto; }
+  .portfolio-panel .page { width: min(76rem, calc(100% - 2rem)); margin: 0 auto; }
+  @media (max-width: 620px) { .tabs { overflow-x: auto; } .tab { flex: 0 0 auto; white-space: nowrap; padding: .62rem .72rem; font-size: .78rem; } .editor-link { font-size: .7rem; padding: .5rem .55rem; } }</style>
+</head>
+<body>
+  <header class="brand">
+    <div class="brand-lockup">
+      <div class="brand-glyph" aria-hidden="true">V</div>
+      <div><div class="brand-kicker">VISTAMATIONS · CREATIVE SYSTEMS</div><h1>Perchance <span>STUDIO</span></h1><p class="brand-motto">It's nOt a gift, it's a prOmise</p></div>
+    </div>
+    <a class="editor-link" id="editor-link" hidden href="https://perchance.org/https---perchance-org-cool-tools#edit" target="_blank" rel="noopener noreferrer">Open cOOl tOOls editor ↗</a>
+  </header>
+  <nav class="tabs" role="tablist" aria-label="Portfolio and generators">
+    <button class="tab" id="tab-portfolio" type="button" role="tab" aria-selected="true" aria-controls="panel-portfolio">Index</button>
+    <span id="generator-tabs" style="display: contents;"></span>
+  </nav>
+  <section class="tool-panel" id="panel-embed" role="tabpanel" hidden>
+    <div class="embed-toolbar">
+      <strong id="embed-name">Generator</strong>
+      <a class="embed-link" id="embed-direct" href="#" target="_blank" rel="noopener noreferrer">Open on perchance.org ↗</a>
+    </div>
+    <iframe class="tool-frame" id="embed-frame" title="Perchance generator" referrerpolicy="no-referrer" allow="clipboard-read; clipboard-write; fullscreen" allowfullscreen></iframe>
+  </section>
+  <main class="page portfolio-panel" id="panel-portfolio" role="tabpanel" aria-labelledby="tab-portfolio">
+    <div class="hero">
+      <div><div class="section-label">THE GENERATOR COLLECTION</div><h2>Vistamations <em>Perchance Portfolio</em></h2><p>Each project opens on its own page, embedded from Perchance. The landing page is a directory only.</p></div>
+      <span class="count" id="portfolio-count">46 GENERATORS</span>
+    </div>
+    <details class="add-box">
+      <summary>Add a portfolio link</summary>
+      <form class="add-fields" id="add-form">
+        <label>Display name<input id="new-label" placeholder="e.g. Devil Rider" maxlength="80" required></label>
+        <label>Perchance filename or URL<input id="new-slug" placeholder="https---perchance-org-player-metal" required></label>
+        <button class="action" type="submit">Add component</button>
+      </form>
+    </details>
+    <div class="cards" id="cards" aria-live="polite"></div>
+    <p class="status" id="status" role="status"></p>
+  </main>
+  <script>
+    'use strict';
+    const STORE_KEY = 'vistamations-perchance-portfolio-v1';
+    const legacyVisSlugs = [
+      'vis-devil-rider', 'vis-metal-player', 'vis-new-devil', 'vis-trechabault', 'vis-bot01',
+      'vis-perchance-bot', 'vis-character01', 'vis-wizard', 'vis-cookie', 'vis-jung1',
+      'vis-comments', 'vis-quiz', 'vis-vaccuum-quiz', 'vis-gate-wagga-gate', 'vis-arthur',
+      'vis-band-gen', 'vis-dinosaur', 'vis-catapult', 'vis-annie'
+    ];
+    const slugMigrations = {
+      'vis-devil-rider': 'https---perchance-org-vis-devil-rider',
+      'vis-metal-player': 'https---perchance-org-vis-metal-player',
+      'vis-new-devil': 'https---perchance-org-vis-new-devil',
+      'vis-trechabault': 'https---perchance-org-vis-trechabault',
+      'vis-bot01': 'https---perchance-org-https---perchance-org-vis-bot01',
+      'vis-perchance-bot': 'https---perchance-org-vis-perchance-bot',
+      'vis-character01': 'https---perchance-org-https---perchance-org-vis-character01',
+      'vis-wizard': 'https---perchance-org-vis-wizard',
+      'vis-cookie': 'https---perchance-org-vis-cookie',
+      'vis-jung1': 'https---perchance-org-vis-jung1',
+      'vis-comments': 'https---perchance-org-https---perchance-org-vis-comments',
+      'vis-quiz': 'https---perchance-org-https---perchance-org-vis-quiz',
+      'vis-vaccuum-quiz': 'https---perchance-org-https---perchance-org-vis-vaccuum-quiz',
+      'vis-gate-wagga-gate': 'https---perchance-org-vis-gate-wagga-gate',
+      'vis-arthur': 'https---perchance-org-https---perchance-org-vis-arthur',
+      'vis-band-gen': 'https---perchance-org-vis-band-gen',
+      'vis-dinosaur': 'https---perchance-org-https---perchance-org-vis-dinosaur',
+      'vis-catapult': 'https---perchance-org-https---perchance-org-vis-catapult',
+      'vis-annie': 'https---perchance-org-vis-annie'
+    };
+    const labelMap = {
+      'https---perchance-org-electro-rockers': 'Electro Rockers',
+      'https---perchance-org-allrounder-plugin': 'Allrounder Plugin',
+      'https---perchance-org-cool-tools': 'Cool Tools',
+      'https---perchance-org-vis-video-clip-stitcher': 'Video Clip Stitcher',
+      'https---perchance-org-dynamic-sound-projection': 'Dynamic Sound Projection',
+      'https---perchance-org-sherlock-tts': 'Sherlock TTS',
+      'https---perchance-org-gsap-movies': 'GSAP Movies',
+      'https---perchance-org-nodes-gsap': 'Nodes GSAP',
+      'https---perchance-org-mesh-network-landing': 'Mesh Network Landing',
+      'https---perchance-org-pdf-city': 'PDF City',
+      'https---perchance-org-the-tower-agent-cooper': 'The Tower Agent Cooper',
+      'https---perchance-org-calender-clock': 'Calender Clock',
+      'https---perchance-org-kaggle-perchance': 'Kaggle Perchance',
+      'https---perchance-org-sumerian-image-gen': 'Sumerian Image Gen',
+      'https---perchance-org-chat-group-2': 'Chat Group 2',
+      'https---perchance-org-slideshow-maker': 'Slideshow Maker',
+      'https---perchance-org-text-video-to-pdf': 'Text Video To PDF',
+      'https---perchance-org-x-platform': 'X Platform',
+      'https---perchance-org-altrois-latest': 'Altrois Latest',
+      'https---perchance-org-vis-alexandria': 'Alexandria',
+      'https---perchance-org-cool-tools-3': 'Cool Tools 3',
+      'https---perchance-org-vis-pussies': 'Pussies',
+      'https---perchance-org-https---perchance-org-player-video-tech-news': 'Player Video Tech News',
+      'https---perchance-org-kubernetes-studio': 'Kubernetes Studio',
+      'https---perchance-org-stitch-perchance': 'Stitch Perchance',
+      'https---perchance-org-beskl1dhrc-edit': 'Beskl1dhrc Edit',
+      'https---perchance-org-threejs-miracles': 'ThreeJS Miracles',
+      'https---perchance-org-kitty-gen': 'Kitty Gen',
+      'https---perchance-org-oq7micro-server-gsap': 'Oq7Micro Server GSAP',
+      'https---perchance-org-player-metal': 'Player Metal',
+      'https---perchance-org-cool-tools-2': 'Cool Tools 2',
+      'https---perchance-org-alrounder-plugins': 'Alrounder Plugins',
+      'https---perchance-org-abraxis-89': 'Abraxis 89',
+      'https---perchance-org-pocket-podcast': 'Pocket Podcast',
+      'https---perchance-org-vis-devil-rider': 'Devil Rider',
+      'https---perchance-org-vis-metal-player': 'Metal Player',
+      'https---perchance-org-scribe-for-us': 'Scribe For Us',
+      'https---perchance-org-vis-new-devil': 'New Devil',
+      'https---perchance-vis-org-red-book': 'Red Book',
+      'https---perchance-org-vis-trechabault': 'Trechabault',
+      'https---perchance-org-https---perchance-org-vis-bot01': 'Bot01',
+      'https---perchance-org-vis-perchance-bot': 'Perchance Bot',
+      'https---perchance-org-https---perchance-org-vis-character01': 'Character01',
+      'https---perchance-org-vis-wizard': 'Wizard',
+      'https---perchance-org-vis-cookie': 'Cookie',
+      'https---effective-chainsaw-vis-cover-art': 'Cover Art',
+      'https---perchance-org-vis-jung1': 'Jung1',
+      'https---perchance-org-https---perchance-org-vis-comments': 'Comments',
+      'https---perchance-org-https---perchance-org-vis-quiz': 'Quiz',
+      'https---perchance-org-https---perchance-org-vis-vaccuum-quiz': 'Vaccuum Quiz',
+      'https---perchance-org-vis-gate-wagga-gate': 'Gate Wagga Gate',
+      'https---perchance-org-https---perchance-org-vis-arthur': 'Arthur',
+      'https---perchance-org-vis-band-gen': 'Band Gen',
+      'https---perchance-org-https---perchance-org-vis-dinosaur': 'Dinosaur',
+      'https---perchance-org-https---perchance-org-vis-catapult': 'Catapult',
+      'https---perchance-org-vis-annie': 'Annie',
+      'https---perchance-org-girl-in-the-garden': 'Girl In The Garden',
+      'https---perchance-org-girl-in-the-garden-2': 'Girl In The Garden 2'
+    };
+    const unlistedSlugs = new Set([
+      'https---perchance-org-pocket-podcast',
+      'https---perchance-vis-org-red-book'
+    ]);
+    const starterSlugs = [
+      'https---perchance-org-electro-rockers',
+      'https---perchance-org-allrounder-plugin',
+      'https---perchance-org-cool-tools',
+      'https---perchance-org-vis-video-clip-stitcher',
+      'https---perchance-org-dynamic-sound-projection',
+      'https---perchance-org-sherlock-tts',
+      'https---perchance-org-gsap-movies',
+      'https---perchance-org-nodes-gsap',
+      'https---perchance-org-mesh-network-landing',
+      'https---perchance-org-pdf-city',
+      'https---perchance-org-the-tower-agent-cooper',
+      'https---perchance-org-calender-clock',
+      'https---perchance-org-kaggle-perchance',
+      'https---perchance-org-sumerian-image-gen',
+      'https---perchance-org-chat-group-2',
+      'https---perchance-org-slideshow-maker',
+      'https---perchance-org-text-video-to-pdf',
+      'https---perchance-org-x-platform',
+      'https---perchance-org-altrois-latest',
+      'https---perchance-org-vis-alexandria',
+      'https---perchance-org-cool-tools-3',
+      'https---perchance-org-vis-pussies',
+      'https---perchance-org-https---perchance-org-player-video-tech-news',
+      'https---perchance-org-kubernetes-studio',
+      'https---perchance-org-stitch-perchance',
+      'https---perchance-org-beskl1dhrc-edit',
+      'https---perchance-org-threejs-miracles',
+      'https---perchance-org-kitty-gen',
+      'https---perchance-org-oq7micro-server-gsap',
+      'https---perchance-org-player-metal',
+      'https---perchance-org-cool-tools-2',
+      'https---perchance-org-alrounder-plugins',
+      'https---perchance-org-abraxis-89',
+      'https---perchance-org-pocket-podcast',
+      'oqtvsclhz4',
+      'ueve92ud7w',
+      'https---perchance-org-vis-devil-rider',
+      'https---perchance-org-vis-metal-player',
+      'h0mt4yr11m',
+      'https---perchance-org-scribe-for-us',
+      'https---perchance-org-vis-new-devil',
+      'https---perchance-vis-org-red-book',
+      'https---perchance-org-vis-trechabault',
+      'https---perchance-org-https---perchance-org-vis-bot01',
+      'https---perchance-org-vis-perchance-bot',
+      'hillv98m84',
+      'https---perchance-org-https---perchance-org-vis-character01',
+      'r6pzh1ym5q',
+      'https---perchance-org-vis-wizard',
+      '2x7srpup3b',
+      'https---perchance-org-vis-cookie',
+      'https---effective-chainsaw-vis-cover-art',
+      'jwx4p0n3ze',
+      'c3ntxcu7da',
+      'https---perchance-org-vis-jung1',
+      '5z185ko1k2',
+      'https---perchance-org-https---perchance-org-vis-comments',
+      'fvn8t524re',
+      'https---perchance-org-https---perchance-org-vis-quiz',
+      'https---perchance-org-https---perchance-org-vis-vaccuum-quiz',
+      'https---perchance-org-vis-gate-wagga-gate',
+      'in3sxlq0ry',
+      'https---perchance-org-https---perchance-org-vis-arthur',
+      'https---perchance-org-vis-band-gen',
+      '6pctxrfpcs',
+      '3tqr99uk7p',
+      'https---perchance-org-https---perchance-org-vis-dinosaur',
+      'https---perchance-org-https---perchance-org-vis-catapult',
+      'https---perchance-org-vis-annie',
+      'https---perchance-org-girl-in-the-garden',
+      'https---perchance-org-girl-in-the-garden-2'
+    ];
+    const cards = document.getElementById('cards');
+    const count = document.getElementById('portfolio-count');
+    const status = document.getElementById('status');
+    function labelFor(slug) {
+      if (labelMap[slug]) return labelMap[slug];
+      if (/^[a-z0-9]{8,12}$/.test(slug)) return slug;
+      let label = slug.replace(/^(?:https---perchance-(?:org|vis-org)-|https---effective-chainsaw-vis-|https---vis-)+/, '');
+      if (/^https---perchance-vis-org-red-book$/.test(slug)) label = 'red-book';
+      return label.replace(/^vis-/, '').split('-').map(function (part) { return part ? part[0].toUpperCase() + part.slice(1) : ''; }).join(' ');
+    }
+    function makeItem(slug) {
+      return { id: slug, label: labelFor(slug), expectedFilename: slug, filename: slug, unlisted: unlistedSlugs.has(slug) };
+    }
+    let items = starterSlugs.map(makeItem);
+    let needsMigration = false;
+    try {
+      const saved = localStorage.getItem(STORE_KEY);
+      if (saved !== null) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed)) {
+          const previous = parsed.filter(function (item) { return item && typeof item === 'object'; }).map(function (item) {
+            const oldSlug = item.expectedFilename || item.filename || slugFromUrl(item.url) || item.id;
+            const mapped = slugMigrations[oldSlug] || slugFromUrl(item.url) && slugMigrations[slugFromUrl(item.url)];
+            const slug = mapped || item.expectedFilename || item.filename || slugFromUrl(item.url) || item.id;
+            if (mapped) needsMigration = true;
+            let next = Object.assign({}, item, { id: mapped || item.id || slug, expectedFilename: mapped || item.expectedFilename || slug, filename: mapped || item.filename || slug });
+            delete next.url;
+            if (item.url && !mapped) needsMigration = true;
+            return next;
+          });
+          const bySlug = new Map(previous.map(function (item) { return [item.expectedFilename, item]; }));
+          const savedSlugs = new Set(previous.map(function (item) { return item.expectedFilename; }));
+          const migratedLegacy = legacyVisSlugs.map(function (slug) { return slugMigrations[slug]; });
+          items = starterSlugs.map(makeItem).filter(function (item) { return !migratedLegacy.includes(item.expectedFilename) || savedSlugs.has(item.expectedFilename); }).map(function (item) { return bySlug.get(item.expectedFilename) || item; });
+          previous.forEach(function (item) {
+            if (starterSlugs.includes(item.expectedFilename)) {
+              item.label = labelFor(item.expectedFilename);
+              item.unlisted = unlistedSlugs.has(item.expectedFilename);
+            }
+          });
+        } else statusError('Saved portfolio data is invalid. Showing the starter project list.');
+      }
+    } catch (error) { statusError('Could not read this browser’s saved portfolio. Showing the starter project list.'); }
+    function statusError(message) { status.textContent = message; status.classList.add('error'); }
+    function saveItems() {
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(items)); status.textContent = 'Saved in this browser.'; status.classList.remove('error'); }
+      catch (error) { statusError('Could not save changes in this browser. Check storage permissions or available space.'); }
+    }
+    function slugFromUrl(value) {
+      try {
+        const url = new URL(value);
+        if (url.protocol !== 'https:' || !['perchance.org', 'null.perchance.org'].includes(url.hostname)) return null;
+        const parts = url.pathname.split('/').filter(Boolean);
+        return parts.length === 1 && /^[a-z0-9-]{1,100}$/.test(parts[0]) ? parts[0] : null;
+      } catch (error) { return null; }
+    }
+    // Perchance generator names are the full slug as listed (e.g.
+    // "https---perchance-org-player-metal"). Both perchance.org/<slug> and
+    // null.perchance.org/<slug> resolve to the same generator — do NOT strip
+    // the "https---perchance-org-" prefix, or the URL 404s.
+    function cleanSlug(slug) { return String(slug || '').trim(); }
+    function embedUrl(slug) { return 'https://null.perchance.org/' + cleanSlug(slug); }
+    function editorUrl(slug) { return 'https://perchance.org/' + cleanSlug(slug) + '#edit'; }
+    function embedPage(filename) { return '/embed/' + encodeURIComponent(filename); }
+    function getEditorUrl(slug) { return editorUrl(slug); }
+    function render() {
+      count.textContent = items.length + (items.length === 1 ? ' PROJECT' : ' PROJECTS');
+      cards.replaceChildren();
+      items.forEach(function (item, index) {
+        const card = document.createElement('article');
+        card.className = 'card';
+        const top = document.createElement('div');
+        top.className = 'card-top';
+        const nameWrap = document.createElement('div');
+        const heading = document.createElement('h3');
+        heading.textContent = item.label || 'Untitled generator';
+        if (item.unlisted) { const badge = document.createElement('span'); badge.className = 'badge'; badge.textContent = 'UNLISTED'; heading.appendChild(badge); }
+        const expected = document.createElement('code');
+        expected.className = 'filename';
+        expected.textContent = 'Filename: ' + item.expectedFilename;
+        nameWrap.append(heading, expected);
+        top.appendChild(nameWrap);
+        const label = document.createElement('label');
+        label.textContent = 'Perchance filename';
+        const input = document.createElement('input');
+        input.className = 'slug-input';
+        input.value = item.filename || '';
+        input.spellcheck = false;
+        input.setAttribute('aria-label', 'Filename for ' + (item.label || 'generator'));
+        label.appendChild(input);
+        const issue = document.createElement('p');
+        issue.className = 'issue'; issue.hidden = true; issue.setAttribute('role', 'alert');
+        const open = document.createElement('a');
+        open.className = 'page-link'; open.href = embedPage(item.filename || item.expectedFilename); open.textContent = 'Open dedicated embed page';
+        open.addEventListener('click', function (event) { if (!validFilename(input.value) || input.value.trim() !== item.expectedFilename) event.preventDefault(); });
+        function validate() {
+          const value = input.value.trim();
+          if (!validFilename(value)) { issue.textContent = 'Filename error: use lowercase letters, numbers, and hyphens only.'; issue.hidden = false; open.removeAttribute('href'); }
+          else if (value !== item.expectedFilename) { issue.textContent = 'Filename changed: this card expects “' + item.expectedFilename + '”, but the link now points to “' + value + '”. Remove and re-add the project to accept an intentional filename change.'; issue.hidden = false; open.removeAttribute('href'); }
+          else { issue.hidden = true; open.href = embedPage(value); }
+        }
+        function validFilename(value) { return /^[a-z0-9-]{1,100}$/.test(value); }
+        input.addEventListener('input', validate);
+        input.addEventListener('change', function () { item.filename = input.value.trim(); saveItems(); validate(); });
+        validate();
+        const actions = document.createElement('div'); actions.className = 'card-actions';
+        const remove = document.createElement('button'); remove.type = 'button'; remove.className = 'action remove'; remove.textContent = 'Remove';
+        remove.setAttribute('aria-label', 'Remove ' + (item.label || 'generator'));
+        remove.addEventListener('click', function () { items.splice(index, 1); saveItems(); render(); });
+        const edit = document.createElement('a'); edit.className = 'editor-link'; edit.href = editorUrl(item.filename || item.expectedFilename); edit.textContent = 'Edit ↗'; edit.target = '_blank'; edit.rel = 'noopener noreferrer';
+        actions.append(open, edit, remove);
+        card.append(top, label, issue, actions); cards.appendChild(card);
+      });
+    }
+    document.getElementById('add-form').addEventListener('submit', function (event) {
+      event.preventDefault();
+      const label = document.getElementById('new-label').value.trim();
+      const entered = document.getElementById('new-slug').value.trim();
+      const slug = slugFromUrl(entered) || entered;
+      if (!label || !/^[a-z0-9-]{1,100}$/.test(slug)) { statusError('Add error: enter a display name and a valid Perchance filename or URL.'); return; }
+      if (items.some(function (item) { return item.expectedFilename === slug; })) { statusError('Add error: “' + slug + '” is already in this portfolio.'); return; }
+      items.push({ id: String(Date.now()), label: label, expectedFilename: slug, filename: slug, unlisted: false });
+      saveItems(); render(); event.target.reset();
+    });
+    // Build one tab per generator. The tab bar wraps into rows (CSS flex-wrap).
+    const generatorTabs = document.getElementById('generator-tabs');
+    starterSlugs.forEach(function (slug) {
+      const tab = document.createElement('button');
+      tab.type = 'button';
+      tab.className = 'tab';
+      tab.id = 'tab-' + slug;
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-selected', 'false');
+      tab.setAttribute('aria-controls', 'panel-embed');
+      tab.setAttribute('data-slug', slug);
+      tab.textContent = labelFor(slug);
+      generatorTabs.appendChild(tab);
+    });
+    function activateTab(tab) {
+      const isPortfolio = tab.id === 'tab-portfolio';
+      document.querySelectorAll('.tab').forEach(function (other) {
+        other.setAttribute('aria-selected', String(other === tab));
+      });
+      document.getElementById('panel-portfolio').hidden = !isPortfolio;
+      const embedPanel = document.getElementById('panel-embed');
+      const frame = document.getElementById('embed-frame');
+      const name = document.getElementById('embed-name');
+      const direct = document.getElementById('embed-direct');
+      embedPanel.hidden = isPortfolio;
+      const slug = tab.getAttribute('data-slug');
+      if (isPortfolio) {
+        if (frame.getAttribute('src')) frame.removeAttribute('src');
+        name.textContent = 'Generator';
+        direct.removeAttribute('href');
+      } else {
+        name.textContent = tab.textContent.trim();
+        // "As-is" direct link to the generator on perchance.org.
+        direct.href = editorUrl(slug).replace('#edit', '');
+        direct.textContent = 'Open on perchance.org ↗';
+        // Embed served from this app on port 3006.
+        const src = embedUrl(slug);
+        if (frame.getAttribute('src') !== src) frame.src = src;
+      }
+      // Header editor link follows the active generator tab.
+      const editorLink = document.getElementById('editor-link');
+      if (slug) {
+        editorLink.href = editorUrl(slug);
+        editorLink.textContent = 'Edit ' + (tab.textContent || '').trim() + ' ↗';
+        editorLink.hidden = false;
+      } else {
+        editorLink.hidden = true;
+      }
+    }
+    document.querySelectorAll('.tab').forEach(function (tab) {
+      tab.addEventListener('click', function () { activateTab(tab); });
+    });
+    activateTab(document.getElementById('tab-portfolio'));
+    render();
+    if (needsMigration) saveItems();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
